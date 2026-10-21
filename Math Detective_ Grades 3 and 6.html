@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Math Detective: Grades 3 and 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fffaf0;--card:#fff;--ink:#1d2a44;--soft:#5b6785;--line:#e6dfcc;--sun:#ffc93c;--mint:#2ec4a6;--coral:#ff6b6b;--sky:#e8f1ff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141b2d;--card:#1d2742;--ink:#f3efe3;--soft:#a9b3cf;--line:#34406a;--sky:#26335a}}
+:root[data-theme="dark"]{--bg:#141b2d;--card:#1d2742;--ink:#f3efe3;--soft:#a9b3cf;--line:#34406a;--sky:#26335a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Nunito,system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+h1,h2,h3{font-family:"Baloo 2",system-ui,sans-serif;line-height:1.15;margin:0}
+h1{font-size:2.3rem;font-weight:800}
+.sub{color:var(--soft);margin:6px 0 18px}
+.method{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.method div{background:var(--sky);border-radius:14px;padding:10px;font-weight:700;font-size:.92rem}
+.method b{display:block;font-family:"Baloo 2",sans-serif;font-size:1.05rem}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{font:700 1rem "Baloo 2",sans-serif;padding:8px 16px;border-radius:999px;border:2px solid var(--ink);background:var(--card);color:var(--ink);cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--sun);color:#1d2a44}
+button:focus-visible,input:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+.lesson{display:none;background:var(--card);border:2px solid var(--ink);border-radius:22px;padding:22px}
+.lesson.on{display:block}
+.q{background:var(--sky);border-radius:14px;padding:12px 14px;margin:12px 0}
+.vis{overflow-x:auto;margin:14px 0}
+.cap{min-height:3.2em;font-weight:700}
+.btn{font:700 1rem "Baloo 2",sans-serif;background:var(--ink);color:var(--bg);border:0;border-radius:12px;padding:8px 18px;cursor:pointer}
+.opts{display:grid;gap:8px;margin:10px 0}
+.opts button{text-align:left;font:700 1rem Nunito,sans-serif;padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.opts button.ok{background:var(--mint);border-color:var(--mint);color:#082b24}
+.opts button.no{background:var(--coral);border-color:var(--coral);color:#3a0909}
+.fb{font-weight:700;min-height:1.5em}
+.hint{color:var(--soft);font-size:.95rem;margin-top:6px}
+input[type=range]{width:100%;accent-color:var(--coral)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=number]{font:700 1.1rem Nunito,sans-serif;width:110px;padding:8px;border-radius:10px;border:2px solid var(--ink);background:var(--card);color:var(--ink)}
+.tbl{border-collapse:collapse;margin:8px 0}.tbl td,.tbl th{border:1px solid var(--line);padding:4px 12px;text-align:center}
+@media(max-width:520px){.method{grid-template-columns:1fr 1fr}h1{font-size:1.9rem}}
+</style>
+</head>
+<body>
+<main>
+<h1>Math Detective</h1>
+<p class="sub">Every math question is a case. Use the same four moves each time.</p>
+<div class="method">
+<div><b>1. Read it</b>What is asked? What is given?</div>
+<div><b>2. Plan it</b>Which tool fits?</div>
+<div><b>3. Solve it</b>Work one step at a time.</div>
+<div><b>4. Check it</b>Does the answer make sense?</div>
+</div>
+<p><label for="nm"><b>Your name:</b></label> <input id="nm" type="text" placeholder="Type your name" autocomplete="off" style="font:700 1rem Nunito,sans-serif;padding:8px 12px;border-radius:10px;border:2px solid var(--ink);background:var(--card);color:var(--ink);max-width:100%"></p>
+<div class="tabs" role="tablist">
+<button role="tab" aria-selected="true" data-t="0">Fractions of a field</button>
+<button role="tab" aria-selected="false" data-t="1">Growing patterns</button>
+<button role="tab" aria-selected="false" data-t="2">Rotational symmetry</button>
+<button role="tab" aria-selected="false" data-t="3">Percent off</button>
+<button role="tab" aria-selected="false" data-t="4">kg and grams</button>
+<button role="tab" aria-selected="false" data-t="5">Find the angle k</button>
+<button role="tab" aria-selected="false" data-t="6">Equivalent fractions</button>
+<button role="tab" aria-selected="false" data-t="7">Decimals × 100</button>
+<button role="tab" aria-selected="false" data-t="8">Patterns and graphs</button>
+<button role="tab" aria-selected="false" data-t="9">Money smarts</button>
+<button role="tab" aria-selected="false" data-t="10">Grade 3: Round to 10</button>
+<button role="tab" aria-selected="false" data-t="11">Grade 3: Round to 100</button>
+</div>
+
+<section class="lesson on" id="l0">
+<h2>Fractions: what’s left over?</h2>
+<div class="q"><b>Case:</b> A garden is planted with beans, peas and carrots. 1/3 is beans. 1/4 is peas. What fraction is carrots?</div>
+<p><b>Read it:</b> The whole garden is 1. Carrots are whatever beans and peas don’t cover. <b>Plan it:</b> Use equal parts so the fractions can be added.</p>
+<div class="vis"><svg id="bar" viewBox="0 0 480 70" width="100%" style="min-width:320px" role="img" aria-label="Garden split into 12 equal parts"></svg></div>
+<p class="cap" id="cap">Press the button to start.</p>
+<button class="btn" id="next">Next step</button>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">A pizza is 1/2 cheese and 1/6 mushroom. The rest is olives. What fraction is olives?</div>
+<div class="opts" data-ans="0" data-opts='["1/3","2/3","1/6","3/8"]'></div>
+<div class="fb"></div><div class="hint">Hint: 2 and 6 both fit into 6. Write 1/2 as sixths first.</div>
+<div class="q">A cake is 1/4 chocolate and 1/2 vanilla. The rest is strawberry. What fraction is strawberry?</div>
+<div class="opts" data-ans="2" data-opts='["3/4", "1/2", "1/4", "2/3"]'></div>
+<div class="fb"></div><div class="hint">Hint: Write 1/2 as 2/4. Add the two parts, then subtract from 4/4.</div>
+<div class="q">A field is 2/5 corn and 1/10 wheat. The rest is grass. What fraction is grass?</div>
+<div class="opts" data-ans="2" data-opts='["3/10", "7/10", "1/2", "3/5"]'></div>
+<div class="fb"></div><div class="hint">Hint: Write 2/5 as tenths first.</div>
+</section>
+
+<section class="lesson" id="l1">
+<h2>Patterns: find the rule, skip the drawing</h2>
+<div class="q"><b>Case:</b> Toothpicks make a row of triangles. How many toothpicks make the 25th figure?</div>
+<p><b>Read it:</b> Drawing 25 figures takes forever. <b>Plan it:</b> Find how many toothpicks are added each time, then write a rule.</p>
+<label for="n"><b>Position number: <span id="nv">1</span></b></label>
+<input type="range" id="n" min="1" max="8" value="1">
+<div class="vis"><svg id="tp" viewBox="0 0 400 90" width="100%" style="min-width:320px" role="img" aria-label="Row of triangles made of toothpicks"></svg></div>
+<table class="tbl"><tr><th>Position</th><th>Toothpicks</th><th>Rule: 2 × position + 1</th></tr><tr><td id="a1">1</td><td id="a2">3</td><td id="a3">2 × 1 + 1 = 3</td></tr></table>
+<p class="cap">Each new triangle adds 2 toothpicks. The first figure starts with 1 extra.</p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">Using the rule, how many toothpicks are in position 25?</div>
+<div class="row"><input type="number" id="pa" aria-label="Your answer"><button class="btn" id="pc">Check</button></div>
+<div class="fb" id="pf"></div><div class="hint">Hint: Multiply the position by 2, then add 1.</div>
+<div class="q">Squares in a row use 4 sticks for 1 square, 7 sticks for 2 squares, 10 sticks for 3 squares. How many sticks for 10 squares?</div>
+<div class="opts" data-ans="1" data-opts='["30", "31", "40", "34"]'></div>
+<div class="fb"></div><div class="hint">Hint: Each new square adds 3 sticks. The rule is 3 x position + 1.</div>
+<div class="q">A rule says sticks = 2 x position + 1. How many sticks are in position 40?</div>
+<div class="opts" data-ans="2" data-opts='["82", "80", "81", "41"]'></div>
+<div class="fb"></div><div class="hint">Hint: Multiply 40 by 2, then add 1.</div>
+</section>
+
+<section class="lesson" id="l2">
+<h2>Symmetry: how many times does it match?</h2>
+<div class="q"><b>Case:</b> Turn a shape one full turn (360°). The number of times it looks exactly the same is its <b>order of rotational symmetry</b>.</div>
+<div class="row" id="shp"></div>
+<div class="vis"><svg id="sy" viewBox="0 0 200 200" width="240" height="240" role="img" aria-label="Shape being rotated"></svg></div>
+<label for="ang"><b>Turn: <span id="av">0</span>°</b></label>
+<input type="range" id="ang" min="0" max="360" step="5" value="0">
+<p class="cap" id="sc">Slide to turn the shape. The dashed outline stays still.</p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">Which quadrilateral has rotational symmetry of order 2?</div>
+<div class="opts" data-ans="2" data-opts='["a kite","a square","a parallelogram","an irregular quadrilateral"]'></div>
+<div class="fb"></div><div class="hint">Hint: Try each shape above. Count how many matches you find before 360°.</div>
+<div class="q">What is the order of rotational symmetry of a square?</div>
+<div class="opts" data-ans="3" data-opts='["1", "2", "3", "4"]'></div>
+<div class="fb"></div><div class="hint">Hint: Turn the square in the demo above. Count the matches before 360 degrees.</div>
+<div class="q">Which quadrilateral only matches itself after a full 360 degree turn (order 1)?</div>
+<div class="opts" data-ans="2" data-opts='["a rectangle", "a square", "a kite", "a parallelogram"]'></div>
+<div class="fb"></div><div class="hint">Hint: Try each shape in the demo above.</div>
+</section>
+<section class="lesson" id="l3">
+<h2>Percent off: find the sale price</h2>
+<div class="q"><b>Case:</b> A $40 jacket is 25% off. How much do you pay?</div>
+<p><b>Read it:</b> “Percent” means out of 100. “Off” means take away. The question asks for the <b>sale price</b>, not the discount. <b>Plan it:</b> Find the discount, then subtract it. Or skip a step: you pay 100% − 25% = 75% of the price.</p>
+<label for="pr"><b>Original price: $<span id="prv">40</span></b></label>
+<input type="range" id="pr" min="10" max="100" step="5" value="40">
+<div class="row" id="dsc"></div>
+<div class="vis"><svg id="pb" viewBox="0 0 400 60" width="100%" style="min-width:320px" role="img" aria-label="Price bar: green is what you pay, red is the discount"></svg></div>
+<p class="cap" id="pt"></p>
+<p class="hint">Green is what you pay. Red is the discount.</p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">A shirt costs $60. It is 15% off. What is the sale price?</div>
+<div class="opts" data-ans="1" data-opts='["$9","$51","$45","$69"]'></div>
+<div class="fb"></div><div class="hint">Hint: 15% of 60 is 9. Is $9 the discount or the sale price?</div>
+<div class="q">A game costs $80. It is 20% off. Which calculation gives the sale price in one step?</div>
+<div class="opts" data-ans="2" data-opts='["80 × 0.20","80 × 1.20","80 × 0.80","80 − 0.20"]'></div>
+<div class="fb"></div><div class="hint">Hint: You pay 100% − 20% = 80% = 0.80 of the price.</div>
+<div class="q">A bag costs $50. It is 10% off. What is the sale price?</div>
+<div class="opts" data-ans="2" data-opts='["$5", "$40", "$45", "$55"]'></div>
+<div class="fb"></div><div class="hint">Hint: 10% of 50 is 5. Is that the discount or the sale price?</div>
+<div class="q">A hat costs $20. It is 50% off. What do you pay?</div>
+<div class="opts" data-ans="0" data-opts='["$10", "$30", "$5", "$15"]'></div>
+<div class="fb"></div><div class="hint">Hint: 50% means half.</div>
+</section>
+<section class="lesson" id="l4">
+<h2>kg and grams: move the decimal point</h2>
+<div class="q"><b>Case:</b> How many grams are equal to 4.6 kg?</div>
+<p><b>Read it:</b> The prefix <b>kilo</b> means 1000. So 1 kg = 1000 g. <b>Plan it:</b> Going from kg to g, multiply by 1000. Going from g to kg, divide by 1000.</p>
+<div class="row"><button class="btn" id="um0">kg to g</button><button class="btn" id="um1">g to kg</button></div>
+<label for="uv"><b>Start with: <span id="uvv"></span></b></label>
+<input type="range" id="uv" min="1" max="100" value="46">
+<p class="cap" id="ut"></p>
+<p class="cap" id="ut2"></p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">How many grams are equal to 3.8 kg?</div>
+<div class="opts" data-ans="1" data-opts='["38 000 g","3800 g","380 g","38 g"]'></div>
+<div class="fb"></div><div class="hint">Hint: Move the decimal point 3 places right. 3.8 becomes 3800.</div>
+<div class="q">A bag of rice has a mass of 2500 g. How many kilograms is that?</div>
+<div class="opts" data-ans="2" data-opts='["25 kg","250 kg","2.5 kg","0.25 kg"]'></div>
+<div class="fb"></div><div class="hint">Hint: Move the decimal point 3 places left. 2500. becomes 2.500.</div>
+<div class="q">How many kilograms is 600 g?</div>
+<div class="opts" data-ans="2" data-opts='["60 kg", "6 kg", "0.6 kg", "0.06 kg"]'></div>
+<div class="fb"></div><div class="hint">Hint: Move the decimal point 3 places left.</div>
+<div class="q">How many grams is 0.75 kg?</div>
+<div class="opts" data-ans="3" data-opts='["75 g", "7500 g", "0.075 g", "750 g"]'></div>
+<div class="fb"></div><div class="hint">Hint: Move the decimal point 3 places right.</div>
+</section>
+
+<section class="lesson" id="l5">
+<h2>Find the angle k</h2>
+<div class="q"><b>Case:</b> A figure shows one angle and the letter k. Find k.</div>
+<p><b>Read it:</b> Look for clues in the figure. A small square means 90°. A straight line means 180°. Three sides means a triangle (180° inside). <b>Plan it:</b> Pick the rule, then subtract what you know from the total.</p>
+<div class="row" id="gr"></div>
+<div class="vis"><svg id="gs" viewBox="0 0 400 170" width="100%" style="min-width:320px" role="img" aria-label="Angle diagram with unknown angle k"></svg></div>
+<label for="ga"><b>Known angle: <span id="gav"></span>°</b></label>
+<input type="range" id="ga" min="10" max="80" value="25">
+<p class="cap" id="gx"></p>
+<p class="cap" id="gt"></p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">Two angles sit side by side on a straight line. One is 38°. The other is k. What is k?</div>
+<div class="opts" data-ans="1" data-opts='["52°","142°","38°","322°"]'></div>
+<div class="fb"></div><div class="hint">Hint: A straight line is 180°. Subtract 38°.</div>
+<div class="q">A triangle has angles of 50°, 70° and k. What is k?</div>
+<div class="opts" data-ans="1" data-opts='["120°","60°","130°","40°"]'></div>
+<div class="fb"></div><div class="hint">Hint: Angles in a triangle add to 180°. Add 50 + 70 first, then subtract from 180.</div>
+<div class="q">Two angles make a square corner (90 degrees). One is 35 degrees. The other is k. What is k?</div>
+<div class="opts" data-ans="1" data-opts='["45°", "55°", "65°", "125°"]'></div>
+<div class="fb"></div><div class="hint">Hint: A square corner is 90 degrees. Subtract 35.</div>
+<div class="q">An angle of 115 degrees and an angle k sit on a straight line. What is k?</div>
+<div class="opts" data-ans="1" data-opts='["75°", "65°", "245°", "115°"]'></div>
+<div class="fb"></div><div class="hint">Hint: A straight line is 180 degrees. Subtract 115.</div>
+</section>
+<section class="lesson" id="l6">
+<h2>Equivalent fractions and mixed numbers</h2>
+<div class="q"><b>Case:</b> Which mixed number is equivalent to 7/4?</div>
+<p><b>Read it:</b> Equivalent means the same amount written differently. <b>Plan it:</b> Divide the top by the bottom. The whole number is how many full wholes you can make. The remainder is what is left over.</p>
+<div class="row" id="efb"></div>
+<label for="efn"><b>Fraction: <span id="efv"></span></b></label>
+<input type="range" id="efn" min="1" max="19" value="7">
+<div class="vis"><svg id="efs" viewBox="0 0 480 110" width="100%" style="min-width:320px" role="img" aria-label="Bars showing the fraction"></svg></div>
+<p class="cap" id="eft"></p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">Which mixed number is equivalent to 9/4?</div>
+<div class="opts" data-ans="1" data-opts='["1 1/4","2 1/4","4 1/9","9 1/4"]'></div>
+<div class="fb"></div><div class="hint">Hint: 9 ÷ 4 = 2 remainder 1. Keep the same denominator.</div>
+<div class="q">Which fraction is equivalent to 3/5?</div>
+<div class="opts" data-ans="0" data-opts='["6/10","3/10","6/5","5/3"]'></div>
+<div class="fb"></div><div class="hint">Hint: Whatever you do to the top, do to the bottom.</div>
+<div class="q">Which mixed number is equivalent to 7/3?</div>
+<div class="opts" data-ans="0" data-opts='["2 1/3", "3 1/7", "2 1/7", "1 1/3"]'></div>
+<div class="fb"></div><div class="hint">Hint: 7 divided by 3 is 2 remainder 1.</div>
+<div class="q">Which fraction is equivalent to 2/3?</div>
+<div class="opts" data-ans="2" data-opts='["2/6", "4/3", "4/6", "3/2"]'></div>
+<div class="fb"></div><div class="hint">Hint: Do the same to the top and the bottom.</div>
+</section>
+
+<section class="lesson" id="l7">
+<h2>Decimals × 10, 100, 1000</h2>
+<div class="q"><b>Case:</b> One package of seeds costs $0.35. What do 100 packages cost?</div>
+<p><b>Read it:</b> The price is given for one. The question asks about 100. <b>Plan it:</b> Multiply by 100. Count the zeros in 100, then move the decimal point that many places right.</p>
+<div class="row" id="dmb"></div>
+<label for="dmp"><b>Price of one: <span id="dmv"></span></b></label>
+<input type="range" id="dmp" min="5" max="95" step="5" value="35">
+<p class="cap" id="dmt"></p>
+<p class="cap" id="dmc"></p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">One pencil costs $0.25. What is the cost of 100 pencils?</div>
+<div class="opts" data-ans="1" data-opts='["$2.50","$25","$250","$0.25"]'></div>
+<div class="fb"></div><div class="hint">Hint: 25¢ × 100 = 2500¢. How many dollars is that?</div>
+<div class="q">One sticker costs $1.20. What is the cost of 10 stickers?</div>
+<div class="opts" data-ans="0" data-opts='["$12","$120","$1.20","$0.12"]'></div>
+<div class="fb"></div><div class="hint">Hint: 10 has one zero. Move the decimal point one place right.</div>
+<div class="q">One notebook costs $2.50. What is the cost of 100 notebooks?</div>
+<div class="opts" data-ans="1" data-opts='["$25", "$250", "$2.50", "$2500"]'></div>
+<div class="fb"></div><div class="hint">Hint: 100 has 2 zeros. Move the decimal point 2 places right.</div>
+<div class="q">One apple costs $0.40. What is the cost of 10 apples?</div>
+<div class="opts" data-ans="2" data-opts='["$40", "$0.40", "$4", "$0.04"]'></div>
+<div class="fb"></div><div class="hint">Hint: 10 has 1 zero. Move the decimal point 1 place right.</div>
+</section>
+
+<section class="lesson" id="l8">
+<h2>Patterns: tables, rules and graphs</h2>
+<div class="q"><b>Case:</b> A pattern starts at 3 and adds the same amount each time. Which term number has a given value?</div>
+<p><b>Read it:</b> What is the first term? What is added each time? <b>Plan it:</b> Work backwards. Subtract the first term, divide by the amount added, then add 1.</p>
+<div class="row" id="pgb"></div>
+<label for="pgt"><b>Target value: <span id="pgv"></span></b></label>
+<input type="range" id="pgt" min="2" max="12" value="7">
+<div class="vis"><table class="tbl" id="pgtb"></table></div>
+<div class="vis"><svg id="pgg" viewBox="0 0 300 175" width="100%" style="min-width:300px;max-width:420px" role="img" aria-label="Graph of term number and term value"></svg></div>
+<p class="cap" id="pgx"></p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">A pattern is 2, 6, 10, 14. What term number has the value 26?</div>
+<div class="opts" data-ans="2" data-opts='["5","6","7","8"]'></div>
+<div class="fb"></div><div class="hint">Hint: It adds 4 each time. (26 − 2) ÷ 4 = 6 jumps. Then add 1.</div>
+<div class="q">Position 1 has 5 tiles, position 2 has 10, position 3 has 15. Which rule fits?</div>
+<div class="opts" data-ans="1" data-opts='["tiles = position + 4","tiles = position × 5","tiles = position × 3","tiles = position + 5"]'></div>
+<div class="fb"></div><div class="hint">Hint: Test each rule on position 2. It must give 10.</div>
+<div class="q">A pattern is 5, 8, 11, 14. What term number has the value 29?</div>
+<div class="opts" data-ans="1" data-opts='["8", "9", "10", "24"]'></div>
+<div class="fb"></div><div class="hint">Hint: It adds 3 each time. (29 - 5) / 3 = 8 jumps. Then add 1.</div>
+<div class="q">Position 1 has 3 tiles, position 2 has 6, position 3 has 9. Which rule fits?</div>
+<div class="opts" data-ans="1" data-opts='["tiles = position + 2", "tiles = position x 3", "tiles = position + 3", "tiles = position x 2"]'></div>
+<div class="fb"></div><div class="hint">Hint: Test each rule on position 2. It must give 6.</div>
+</section>
+
+<section class="lesson" id="l9">
+<h2>Money smarts: goals and money words</h2>
+<div class="q"><b>Case:</b> You are saving $200 for a bike. Which changes help, and which interfere?</div>
+<p><b>Read it:</b> Savings each week = income − expenses. <b>Plan it:</b> Ask whether each change makes that gap bigger or smaller.</p>
+<div class="row" id="mnb"></div>
+<p class="cap" id="mnt"></p>
+<p class="cap" id="mnm"></p>
+<h3 style="margin-top:18px">Match the money word</h3>
+<div id="mnmt"></div>
+<button class="btn" id="mnck">Check</button>
+<div class="fb" id="mnfb"></div>
+<h3 style="margin-top:22px">Your turn</h3>
+<p class="hint">On the real test, some questions say “Select the TWO” answers. Always read the instruction.</p>
+<div class="q">Which change could make it harder to reach a savings goal?</div>
+<div class="opts" data-ans="2" data-opts='["getting a raise","spending less on snacks","paying higher rent","finding a coupon"]'></div>
+<div class="fb"></div><div class="hint">Hint: Which one shrinks the gap between income and expenses?</div>
+<div class="q">Which action is an example of donating?</div>
+<div class="opts" data-ans="0" data-opts='["giving $5 to a food bank", "taking a loan from a bank", "lending a friend $5 and getting it back", "buying a toy"]'></div>
+<div class="fb"></div><div class="hint">Hint: Donating means giving as a gift, not expecting it back.</div>
+<div class="q">Maya earns $15 a week and spends $9. How much does she save in 4 weeks?</div>
+<div class="opts" data-ans="1" data-opts='["$6", "$24", "$36", "$60"]'></div>
+<div class="fb"></div><div class="hint">Hint: Find the savings in 1 week first.</div>
+</section>
+<section class="lesson" id="l10">
+<h2>Grade 3: Round to the nearest 10</h2>
+<div style="background:var(--sun);color:#1d2a44;border-radius:14px;padding:12px 14px;margin:12px 0"><b>The magic rule:</b> Look at the digit next door. <b>5 or more, raise the score. 4 or less, let it rest.</b></div>
+<ol><li>Find the two tens your number sits between.</li><li>Look at the <b>ones</b> digit next door.</li><li>5 or more? Go up. 4 or less? Stay down.</li></ol>
+<label for="rs0"><b>Your number: <span id="rv0"></span></b></label>
+<input type="range" id="rs0" min="1" max="99" value="47">
+<div class="vis"><svg id="rg0" viewBox="0 0 400 120" width="100%" style="min-width:320px" role="img" aria-label="Number line showing the number between two tens"></svg></div>
+<p class="cap" id="rc0"></p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">Round 47 to the nearest 10.</div>
+<div class="opts" data-ans="1" data-opts='["40","50","45","47"]'></div>
+<div class="fb"></div><div class="hint">Hint: The ones digit is 7. Is 7 five or more?</div>
+<div class="q">Round 82 to the nearest 10.</div>
+<div class="opts" data-ans="0" data-opts='["80","90","82","100"]'></div>
+<div class="fb"></div><div class="hint">Hint: The ones digit is 2. Is 2 four or less?</div>
+<div class="q">Round 65 to the nearest 10.</div>
+<div class="opts" data-ans="2" data-opts='["60","65","70","75"]'></div>
+<div class="fb"></div><div class="hint">Hint: Exactly halfway goes up. The ones digit is 5.</div>
+<div class="q">Round 73 to the nearest 10.</div>
+<div class="opts" data-ans="2" data-opts='["80", "75", "70", "73"]'></div>
+<div class="fb"></div><div class="hint">Hint: The ones digit is 3. Is 3 four or less?</div>
+<div class="q">Round 98 to the nearest 10.</div>
+<div class="opts" data-ans="1" data-opts='["90", "100", "98", "99"]'></div>
+<div class="fb"></div><div class="hint">Hint: The ones digit is 8. Is 8 five or more?</div>
+</section>
+
+<section class="lesson" id="l11">
+<h2>Grade 3: Round to the nearest 100</h2>
+<div style="background:var(--sun);color:#1d2a44;border-radius:14px;padding:12px 14px;margin:12px 0"><b>The magic rule:</b> Look at the digit next door. <b>5 or more, raise the score. 4 or less, let it rest.</b></div>
+<ol><li>Find the two hundreds your number sits between.</li><li>Look at the <b>tens</b> digit next door.</li><li>5 or more? Go up. 4 or less? Stay down.</li></ol>
+<label for="rs1"><b>Your number: <span id="rv1"></span></b></label>
+<input type="range" id="rs1" min="1" max="999" value="348">
+<div class="vis"><svg id="rg1" viewBox="0 0 400 120" width="100%" style="min-width:320px" role="img" aria-label="Number line showing the number between two hundreds"></svg></div>
+<p class="cap" id="rc1"></p>
+<h3 style="margin-top:22px">Your turn</h3>
+<div class="q">Round 348 to the nearest 100.</div>
+<div class="opts" data-ans="0" data-opts='["300","400","350","340"]'></div>
+<div class="fb"></div><div class="hint">Hint: The tens digit is 4. Is 4 four or less?</div>
+<div class="q">Round 752 to the nearest 100.</div>
+<div class="opts" data-ans="2" data-opts='["700","750","800","760"]'></div>
+<div class="fb"></div><div class="hint">Hint: The tens digit is 5. Five or more goes up.</div>
+<div class="q">Round 450 to the nearest 100.</div>
+<div class="opts" data-ans="1" data-opts='["400","500","450","440"]'></div>
+<div class="fb"></div><div class="hint">Hint: 450 is exactly halfway between 400 and 500. Halfway goes up.</div>
+<div class="q">Round 621 to the nearest 100.</div>
+<div class="opts" data-ans="1" data-opts='["700", "600", "620", "650"]'></div>
+<div class="fb"></div><div class="hint">Hint: The tens digit is 2. Is 2 four or less?</div>
+<div class="q">Round 876 to the nearest 100.</div>
+<div class="opts" data-ans="2" data-opts='["800", "870", "900", "880"]'></div>
+<div class="fb"></div><div class="hint">Hint: The tens digit is 7. Is 7 five or more?</div>
+</section>
+</main>
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)},NS="http://www.w3.org/2000/svg";
+document.querySelectorAll(".tabs button").forEach(function(b){b.onclick=function(){
+document.querySelectorAll(".tabs button").forEach(function(x){x.setAttribute("aria-selected",x===b)});
+document.querySelectorAll(".lesson").forEach(function(l,i){l.classList.toggle("on",i==b.dataset.t)})}});
+document.querySelectorAll(".opts").forEach(function(o){
+var fb=o.nextElementSibling,ans=+o.dataset.ans,tries=0;
+JSON.parse(o.dataset.opts).forEach(function(t,i){var b=document.createElement("button");b.textContent=String.fromCharCode(65+i)+"  "+t;
+b.onclick=function(){if(i==ans){b.className="ok";fb.textContent="Correct! Now say out loud how you checked it.";if(!o.dataset.res)o.dataset.res="1";sc(o.closest(".lesson"))}else{b.className="no";tries++;if(!o.dataset.res)o.dataset.res="x";fb.textContent="Not quite. Read the hint and try again.";sc(o.closest(".lesson"))}};o.appendChild(b)})});
+/* lesson 1 */
+var bar=$("#bar"),steps=["Split the garden into 12 equal parts. Why 12? Both 3 and 4 fit into 12.","1/3 of 12 is 4 parts. Those are beans.","1/4 of 12 is 3 parts. Those are peas.","4 + 3 = 7 parts used. 12 − 7 = 5 parts left, so carrots are 5/12.","Check: 4/12 + 3/12 + 5/12 = 12/12. The whole garden. Case closed!"],s=0;
+function drawBar(){var h="";for(var i=0;i<12;i++){var c="none";if(s>=2&&i<4)c="#ffc93c";if(s>=3&&i>=4&&i<7)c="#2ec4a6";if(s>=4&&i>=7)c="#ff6b6b";h+='<rect x="'+(i*40)+'" y="5" width="40" height="60" fill="'+(s<1?"none":c)+'" stroke="currentColor" stroke-width="2"/>'}
+bar.innerHTML=h}
+$("#next").onclick=function(){s=(s+1)%6;if(s==5)s=0;$("#cap").textContent=s==0?"Press the button to start.":steps[s-1];
+bar.style.opacity=1;drawBar()};drawBar();
+/* lesson 2 */
+var n=$("#n");function tp(){var k=+n.value,h="";$("#nv").textContent=k;
+for(var i=0;i<k+2;i++){var x=i*45+10,y=i%2?15:75;if(i<k+1){var x2=(i+1)*45+10,y2=(i+1)%2?15:75;h+='<line x1="'+x+'" y1="'+y+'" x2="'+x2+'" y2="'+y2+'" stroke="#e0a100" stroke-width="5" stroke-linecap="round"/>'}
+if(i<k){h+='<line x1="'+x+'" y1="'+y+'" x2="'+(x+90)+'" y2="'+y+'" stroke="#2ec4a6" stroke-width="5" stroke-linecap="round"/>'}}
+$("#tp").innerHTML=h;$("#a1").textContent=k;$("#a2").textContent=2*k+1;$("#a3").textContent="2 × "+k+" + 1 = "+(2*k+1)}
+n.oninput=tp;tp();
+$("#pc").onclick=function(){var v=+$("#pa").value,f=$("#pf");f.textContent=v==51?"Correct! 2 × 25 + 1 = 51.":(v==50?"So close. You forgot the + 1 for the starting toothpick.":"Not quite. Use 2 × 25 + 1.")};
+/* lesson 3 */
+var S={"Rectangle":{p:"40,70 160,70 160,130 40,130",o:2},"Square":{p:"65,65 135,65 135,135 65,135",o:4},"Kite":{p:"100,25 140,85 100,175 60,85",o:1},"Parallelogram":{p:"55,70 165,70 145,130 35,130",o:2}},cur="Rectangle",ang=$("#ang");
+Object.keys(S).forEach(function(k){var b=document.createElement("button");b.className="btn";b.textContent=k;b.onclick=function(){cur=k;ang.value=0;sy()};$("#shp").appendChild(b)});
+function sy(){var a=+ang.value,o=S[cur].o,st=360/o;$("#av").textContent=a;
+$("#sy").innerHTML='<polygon points="'+S[cur].p+'" fill="none" stroke="currentColor" stroke-dasharray="5 4" stroke-width="2" opacity=".5"/><polygon points="'+S[cur].p+'" fill="#ffc93c" fill-opacity=".75" stroke="#1d2a44" stroke-width="3" transform="rotate('+a+' 100 100)"/>';
+var m=a>0&&a%st==0;
+$("#sc").textContent=cur+": "+(m?"It matches the outline! That’s match "+(a/st)+" of "+o+".":"No match yet.")+" Order of rotational symmetry: "+o+(o==1?" (it only matches after the full 360°).":".")}
+ang.oninput=sy;sy();
+/* lesson 4 */
+var dp=25,pr=$("#pr");
+[10,20,25,50].forEach(function(d){var b=document.createElement("button");b.className="btn";b.textContent=d+"% off";b.onclick=function(){dp=d;pcalc()};$("#dsc").appendChild(b)});
+function m(x){return "$"+(+x.toFixed(2))}
+function pcalc(){var p=+pr.value,d=p*dp/100,s=p-d,w=400*dp/100;$("#prv").textContent=p;
+$("#pb").innerHTML='<rect x="0" y="5" width="'+(400-w)+'" height="50" fill="#2ec4a6"/><rect x="'+(400-w)+'" y="5" width="'+w+'" height="50" fill="#ff6b6b"/><rect x="0" y="5" width="400" height="50" fill="none" stroke="currentColor" stroke-width="2"/>';
+$("#pt").textContent="Discount: "+dp+"% of "+m(p)+" = "+m(d)+". Sale price: "+m(p)+" − "+m(d)+" = "+m(s)+". Shortcut: you pay "+(100-dp)+"%, so "+p+" × "+((100-dp)/100)+" = "+m(s)+"."}
+pr.oninput=pcalc;pcalc();
+/* lesson 5 */
+var um=0,uv=$("#uv");
+$("#um0").onclick=function(){um=0;ucalc()};$("#um1").onclick=function(){um=1;ucalc()};
+function ucalc(){var v=+uv.value,kg=(v/10).toFixed(1),g=v*100;
+$("#uvv").textContent=um?g+" g":kg+" kg";
+$("#ut").textContent=um?g+" g ÷ 1000 = "+kg+" kg. Move the decimal point 3 places left.":kg+" kg × 1000 = "+g+" g. Move the decimal point 3 places right. Add zeros if you run out of digits.";
+$("#ut2").textContent=um?"Check: a kilogram is big, so you need fewer of them. The number gets smaller.":"Check: a gram is tiny, so you need more of them. The number gets bigger."}
+uv.oninput=ucalc;ucalc();
+/* lesson 6 */
+var gr=0,ga=$("#ga");
+["Straight line","Square corner","Triangle"].forEach(function(t,i){var b=document.createElement("button");b.className="btn";b.textContent=t;b.onclick=function(){gr=i;gdraw()};$("#gr").appendChild(b)});
+function gdraw(){var a=+ga.value,k,eq,h,L='stroke="currentColor" stroke-width="3" fill="none" stroke-linejoin="round"';
+var T=function(x,y,s,c){return '<text x="'+x+'" y="'+y+'" font-size="20" font-weight="700" fill="'+(c||"currentColor")+'">'+s+'</text>'};
+$("#gav").textContent=a;
+if(gr==0){k=180-a;h='<path d="M20 120H380M200 120L130 30" '+L+'/>'+T(135,112,a+"°")+T(235,112,"k","#ff6b6b");eq="k + "+a+"° = 180°, so k = 180° − "+a+"° = "+k+"°"}
+else if(gr==1){k=90-a;h='<path d="M60 150V20M60 150H380M60 150L300 40M60 130H80V150" '+L+'/>'+T(190,140,a+"°")+T(90,85,"k","#ff6b6b");eq="k + "+a+"° = 90°, so k = 90° − "+a+"° = "+k+"°"}
+else{k=120-a;h='<path d="M40 150H360L250 25Z" '+L+'/>'+T(70,140,a+"°")+T(300,140,"60°")+T(240,75,"k","#ff6b6b");eq=a+"° + 60° + k = 180°, so k = 180° − "+(a+60)+"° = "+k+"°"}
+$("#gs").innerHTML=h;$("#gt").textContent=eq+". Check: add them back up to the total.";
+$("#gx").textContent=["Straight line: 180° in total.","Corner with the small square: 90° in total.","Triangle: 180° in total."][gr]+" (Not drawn to scale.)"}
+ga.oninput=gdraw;gdraw();
+/* lesson 7: equivalent fractions */
+var efd=4,efn=$("#efn");
+[3,4,5,6].forEach(function(d){var b=document.createElement("button");b.className="btn";b.textContent="denominator "+d;b.onclick=function(){efd=d;efc()};$("#efb").appendChild(b)});
+function efc(){var n=+efn.value,d=efd,w=Math.floor(n/d),r=n%d,h="",i,j,c=Math.ceil(n/d);$("#efv").textContent=n+"/"+d;
+for(i=0;i<c;i++)for(j=0;j<d;j++)h+='<rect x="'+((i%3)*155+j*24)+'" y="'+(Math.floor(i/3)*32+4)+'" width="22" height="26" rx="3" fill="'+(i*d+j<n?"#ffc93c":"none")+'" stroke="currentColor" stroke-width="2"/>';
+$("#efs").innerHTML=h;
+$("#eft").textContent=n+"/"+d+" means "+n+" parts, and "+d+" parts make one whole. "+(w==0?"That is less than 1 whole.":n+" ÷ "+d+" = "+w+(r?" remainder "+r+", so it equals "+w+" "+r+"/"+d+".":", so it equals "+w+"."))+" Equivalent: "+(2*n)+"/"+(2*d)+" (top and bottom × 2)."}
+efn.oninput=efc;efc();
+/* lesson 8: decimals x 100 */
+var dmq=100,dmp=$("#dmp");
+[10,100,1000].forEach(function(x){var b=document.createElement("button");b.className="btn";b.textContent="× "+x;b.onclick=function(){dmq=x;dmf()};$("#dmb").appendChild(b)});
+function dmf(){var c=+dmp.value,p=(c/100).toFixed(2),res=+(c*dmq/100).toFixed(2),z=Math.round(Math.log10(dmq));$("#dmv").textContent="$"+p;
+$("#dmt").textContent="$"+p+" × "+dmq+" = $"+res+". "+dmq+" has "+z+" zero"+(z>1?"s":"")+", so move the decimal point "+z+" place"+(z>1?"s":"")+" right.";
+$("#dmc").textContent="Check: "+c+"¢ × "+dmq+" = "+(c*dmq)+"¢ = $"+res+". Many items cost more than one item, so the answer should be bigger."}
+dmp.oninput=dmf;dmf();
+/* lesson 9: patterns and graphs */
+var pgs=4,pgt=$("#pgt"),F=3;
+[2,3,4,5].forEach(function(d){var b=document.createElement("button");b.className="btn";b.textContent="adds "+d;b.onclick=function(){pgs=d;pgc()};$("#pgb").appendChild(b)});
+function pgc(){var t=+pgt.value,v=F+pgs*(t-1),i,a="<tr><th>Term number</th>",b="<tr><th>Term value</th>",mx=F+pgs*5,g='<path d="M30 10V150H290" stroke="currentColor" stroke-width="2" fill="none"/>';
+for(i=1;i<=6;i++){var y=F+pgs*(i-1);a+="<td>"+i+"</td>";b+="<td>"+y+"</td>";g+='<circle cx="'+(30+i*38)+'" cy="'+(150-y/mx*135)+'" r="5" fill="#ff6b6b"/><text x="'+(26+i*38)+'" y="168" font-size="12" fill="currentColor">'+i+'</text>'}
+$("#pgtb").innerHTML=a+"</tr>"+b+"</tr>";$("#pgg").innerHTML=g;$("#pgv").textContent=v;
+$("#pgx").textContent="First term 3, adds "+pgs+" each time. For value "+v+": ("+v+" − 3) ÷ "+pgs+" = "+(t-1)+" jumps. Add 1 for the first term: term number "+t+"."}
+pgt.oninput=pgc;pgc();
+/* lesson 10: money */
+var mni=20,mne=12,goal=200;
+function mnf(m){var sv=mni-mne;$("#mnt").textContent="Income $"+mni+" a week, expenses $"+mne+" a week, saving $"+sv+" a week. "+(sv>0?"Goal of $"+goal+" in "+Math.ceil(goal/sv)+" weeks.":"At this rate you can’t reach the goal.");$("#mnm").textContent=m||""}
+[["Income goes up $4",4,0],["Income goes down $4",-4,0],["Expenses go up $4",0,4],["Expenses go down $4",0,-4]].forEach(function(x){var b=document.createElement("button");b.className="btn";b.textContent=x[0];b.onclick=function(){mni=Math.max(0,mni+x[1]);mne=Math.max(0,mne+x[2]);mnf(x[1]>0||x[2]<0?"That helps. You save faster.":"That interferes. You save slower, or not at all.")};$("#mnb").appendChild(b)});
+mnf();
+var MT=["Borrowing","Lending","Donating"],MA=[1,0,2],MD=["Giving money to a person or business, expecting to get it back","Receiving money and agreeing to pay it back later, often with interest","Giving money, services or goods as a gift"];
+MT.forEach(function(t,i){var d=document.createElement("div"),l=document.createElement("b"),s=document.createElement("select");d.className="row";d.style.margin="8px 0";l.textContent=t;s.id="ms"+i;s.style.cssText="font:700 .95rem Nunito,sans-serif;padding:6px;border-radius:8px;border:2px solid var(--ink);background:var(--card);color:var(--ink);max-width:100%";
+s.innerHTML='<option value="">Choose…</option>'+MD.map(function(x,j){return '<option value="'+j+'">'+x+'</option>'}).join("");d.appendChild(l);d.appendChild(s);$("#mnmt").appendChild(d)});
+$("#mnck").onclick=function(){var c=0;MA.forEach(function(a,i){if($("#ms"+i).value===String(a))c++});$("#mnfb").textContent=c==3?"All 3 correct! Lending: you give, expecting it back. Borrowing: you receive, and you must repay.":c+" of 3 correct. Ask: who gets the money, and does it come back?"};
+/* grade 3 rounding */
+function rdraw(i,k){var n=+$("#rs"+i).value,lo=Math.floor(n/k)*k,hi=lo+k,mid=lo+k/2,up=(n-lo)*2>=k,r=up?hi:lo,d=k==10?n%10:Math.floor(n/10)%10,X=function(v){return 30+(v-lo)/k*340},h="";
+$("#rv"+i).textContent=n;
+h+='<line x1="30" y1="70" x2="200" y2="70" stroke="#ffc93c" stroke-width="8" stroke-linecap="round"/><line x1="200" y1="70" x2="370" y2="70" stroke="#ff6b6b" stroke-width="8" stroke-linecap="round"/>';
+[lo,mid,hi].forEach(function(v){h+='<line x1="'+X(v)+'" y1="58" x2="'+X(v)+'" y2="82" stroke="currentColor" stroke-width="3"/><text x="'+X(v)+'" y="104" font-size="18" font-weight="700" text-anchor="middle" fill="currentColor">'+v+'</text>'});
+h+='<text x="200" y="46" font-size="13" text-anchor="middle" fill="currentColor" opacity=".7">halfway</text><circle cx="'+X(r)+'" cy="70" r="16" fill="none" stroke="#2ec4a6" stroke-width="4"/><circle cx="'+X(n)+'" cy="70" r="8" fill="#1d2a44" stroke="#fff" stroke-width="2"/><text x="'+X(n)+'" y="24" font-size="20" font-weight="800" text-anchor="middle" fill="currentColor">'+n+'</text>';
+$("#rg"+i).innerHTML=h;
+$("#rc"+i).textContent=n+" sits between "+lo+" and "+hi+". "+(n==lo?"It is already a round number, so it stays "+n+".":"The "+(k==10?"ones":"tens")+" digit is "+d+". "+(d>=5?"5 or more, raise the score: go up to "+hi+".":"4 or less, let it rest: stay at "+lo+"."))+" "+n+" rounds to "+r+"."}
+$("#rs0").oninput=function(){rdraw(0,10)};$("#rs1").oninput=function(){rdraw(1,100)};
+rdraw(0,10);rdraw(1,100);
+/* scores */
+function sc(l){var os=l.querySelectorAll(".opts"),g=0,a=0,nm=($("#nm").value||"").trim();
+os.forEach(function(o){if(o.dataset.res){a++;if(o.dataset.res==="1")g++}});
+l.querySelector(".score").textContent=(nm?nm+": ":"")+"Score "+g+" out of "+os.length+" on the first try."+(a<os.length?" "+(os.length-a)+" left to answer.":" All done! Take a screenshot and send it to your teacher.")}
+document.querySelectorAll(".lesson").forEach(function(l){var d=document.createElement("div");d.className="score";d.style.cssText="margin-top:18px;border:3px dashed var(--ink);border-radius:14px;padding:12px 14px;font-weight:700";l.appendChild(d);sc(l)});
+$("#nm").oninput=function(){document.querySelectorAll(".lesson").forEach(sc)};
+})();
+</script>
+</body>
+</html>
